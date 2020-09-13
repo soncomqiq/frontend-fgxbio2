@@ -1,101 +1,84 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from "react";
 
-import { Radio } from 'antd'
-import { InfoCircleOutlined } from '@ant-design/icons'
-import ExcelSearch from '../../../components/searches/excel-search/ExcelSearch';
-import TextSearch from '../../../components/searches/text-search/TextSearch';
-import FormSearch from '../../../components/searches/form-search/FormSearch';
+import { Radio } from "antd";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import "./SearchPage.css";
+import ExcelSearch from "../../../components/searches/excel-search/ExcelSearch";
+import TextSearch from "../../../components/searches/text-search/TextSearch";
+import FormSearch from "../../../components/searches/form-search/FormSearch";
 
-export default function SearchPage() {
-  const [currentSearch, setCurrentSearch] = useState(0);
+export default function SearchPage(props) {
+  const [searchMeth, setSearchMeth] = useState(1);
+  const [example, setExample] = useState("");
 
   const renderSearch = () => {
-    const isAuthenticated = this.props.isAuthenticated
-    switch (this.state.searchType) {
-      case 'Excel':
+    const isAuthenticated = props.isAuthenticated;
+    switch (searchMeth) {
+      case 0:
+        return <ExcelSearch isAuthenticated={isAuthenticated} />;
+      case 1:
         return (
-          <div>
-            <ExcelSearch isAuthenticated={isAuthenticated} />
-          </div>
-        )
-
-      case 'Text':
+          <TextSearch
+            isAuthenticated={isAuthenticated}
+            example={example}
+            setExample={setExample}
+          />
+        );
+      case 2:
         return (
-          <div>
-            <TextSearch isAuthenticated={isAuthenticated} example={this.state.example} setExampleEmpty={this.setExampleEmpty} />
-          </div>
-        )
-
-      case 'Manual':
-        return (
-          <div>
-            <FormSearch isAuthenticated={isAuthenticated} example={this.state.example} setExampleEmpty={this.setExampleEmpty} />
-          </div>
-        )
-
+          <FormSearch
+            isAuthenticated={isAuthenticated}
+            example={example}
+            setExample={setExample}
+          />
+        );
       default:
-        return <div>default</div>
+        return <div>default</div>;
     }
-  }
-
-  const setExampleEmpty = () => {
-    this.setState({
-      example: ''
-    })
-  }
+  };
 
   const handleExample = () => {
-    switch (this.state.searchType) {
-      case 'Excel':
-
-        break
-
-      case 'Text':
-        this.setState({
-          example: 'D12S391:19,25\nTPOX:8\nD13S317:8'
-        })
-        break
-
-      case 'Manual':
-        this.setState({
-          example: {
-            D12S391: '19,25',
-            TPOX: '8',
-            D13S317: '8',
-          }
-        })
-        break
-
+    switch (props.searchType) {
+      case "Text":
+        setExample("D12S391:19,25\nTPOX:8\nD13S317:8");
+        break;
+      case "Manual":
+        setExample({
+          D12S391: "19,25",
+          TPOX: "8",
+          D13S317: "8",
+        });
+        break;
       default:
-        break
+        break;
     }
-  }
+  };
 
   return (
     <div>
       <br />
       <div className="container">
-        <p>
-          <strong>
-            We provide multiple methods to compare your sample data with our
-            database&nbsp;
-              <div onClick={this.handleExample}>
-              <InfoCircleOutlined />
-            </div>
-          </strong>
-        </p>
+        <h2>We provide multiple methods to</h2>
+        <h2>compare your sample data with our database</h2>
+        <h2 className="click-for-example" onClick={handleExample}>Click for example</h2>
+        <br />
         <br />
         <Radio.Group
-          onChange={e => { this.setState({ searchType: `${e.target.value}` }); this.setExampleEmpty() }}
-          defaultValue="Text"
+          onChange={(e) => {
+            setSearchMeth(e.target.value);
+            setExample("");
+          }}
+          defaultValue={1}
         >
-          <Radio.Button value="Excel" >Excel</Radio.Button>
-          <Radio.Button value="Text" >Text</Radio.Button>
-          <Radio.Button value="Manual" >Manual</Radio.Button>
+          <Radio.Button value={0}>Excel</Radio.Button>
+          <Radio.Button value={1}>Text</Radio.Button>
+          <Radio.Button value={2}>Manual</Radio.Button>
         </Radio.Group>
       </div>
       <br />
-      {this.renderSearch()}
+      <div>
+        <div className="search-container">{renderSearch()}</div>
+      </div>
     </div>
-  )
+  );
 }

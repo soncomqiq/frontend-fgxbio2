@@ -1,0 +1,13 @@
+.search-container {
+    max-width: 600px;
+    display:inline-block;
+    width: 100%;
+}
+
+.click-for-example {
+    text-decoration: underline;
+    color: hotpink;
+    cursor:pointer;
+    width: fit-content;
+    display:inline-block;
+}

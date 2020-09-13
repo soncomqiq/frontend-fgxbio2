@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Row, Col, Input, Button, Radio, Statistic } from 'antd';
-import axios from 'axios';
-import { ACCESS_TOKEN } from '../../../config/constants';
-import { Typography } from 'antd';
+import React, { useState, useEffect } from "react";
+import { Form, Row, Col, Input, Button, Radio, Statistic } from "antd";
+import axios from "axios";
+import { ACCESS_TOKEN } from "../../../config/constants";
+import { Typography } from "antd";
 
 const { Text } = Typography;
 
@@ -21,87 +21,95 @@ export default function FormSearch() {
             rules={[
               {
                 required: true,
-                message: 'Input something!',
+                message: "Input something!",
               },
             ]}
           >
             <Input placeholder="placeholder" />
           </Form.Item>
-        </Col>,
+        </Col>
       );
     }
     return children;
   };
 
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
+  const onFinish = (values) => {
+    console.log("Received values of form: ", values);
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
     this.setState({
-      isClicked: true
-    })
+      isClicked: true,
+    });
     this.props.form.validateFields((err, values) => {
-      console.log('Received values of form: ', values);
+      console.log("Received values of form: ", values);
       let data = [];
-      console.log(Object.keys(values))
-      let locus = Object.keys(values)
+      console.log(Object.keys(values));
+      let locus = Object.keys(values);
       for (let i = 0; i < locus.length; i++) {
-        console.log(values[locus[i]])
+        console.log(values[locus[i]]);
         if (typeof values[locus[i]] !== "undefined") {
-          let multi = values[locus[i]].split(',')
-          multi.forEach(allele =>
+          let multi = values[locus[i]].split(",");
+          multi.forEach((allele) =>
             data.push({
               locus: `${locus[i]}`,
-              allele: `${allele}`
+              allele: `${allele}`,
             })
-          )
+          );
         }
       }
       if (this.props.isAuthenticated) {
-        const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
-        axios.post('/resources/findpersonbylocus', data, auth).then((Response) => {
-          console.log(Response.data)
-          this.setState({
-            totalMatchSample: Response.data.length,
-            listMatchSample: Response.data
-          })
-        });
+        const auth = {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN),
+          },
+        };
+        axios
+          .post("/resources/findpersonbylocus", data, auth)
+          .then((Response) => {
+            console.log(Response.data);
+            this.setState({
+              totalMatchSample: Response.data.length,
+              listMatchSample: Response.data,
+            });
+          });
       } else {
-        axios.post('/resources/findNumberOfPersonByLocus', data).then((Response) => {
-          console.log(Response.data)
-          this.setState({
-            totalMatchSample: Response.data,
-          })
-        });
+        axios
+          .post("/resources/findNumberOfPersonByLocus", data)
+          .then((Response) => {
+            console.log(Response.data);
+            this.setState({
+              totalMatchSample: Response.data,
+            });
+          });
       }
     });
-  }
+  };
 
   return (
     <Form
-    form={form}
-    name="advanced_search"
-    className="ant-advanced-search-form"
-    onFinish={onFinish}
-  >
-    <Row gutter={24}>{getFields()}</Row>
-    <Row>
-      <Col span={24} style={{ textAlign: 'right' }}>
-        <Button type="primary" htmlType="submit">
-          Search
-        </Button>
-        <Button
-          style={{ margin: '0 8px' }}
-          onClick={() => {
-            form.resetFields();
-          }}
-        >
-          Clear
-        </Button>
-      </Col>
-    </Row>
-  </Form>
+      form={form}
+      name="advanced_search"
+      className="ant-advanced-search-form"
+      onFinish={onFinish}
+    >
+      <Row gutter={24}>{getFields()}</Row>
+      <Row>
+        <Col span={24} style={{ textAlign: "right" }}>
+          <Button type="primary" htmlType="submit">
+            Search
+          </Button>
+          <Button
+            style={{ margin: "0 8px" }}
+            onClick={() => {
+              form.resetFields();
+            }}
+          >
+            Clear
+          </Button>
+        </Col>
+      </Row>
+    </Form>
   );
 }
