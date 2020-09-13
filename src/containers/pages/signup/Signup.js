@@ -1,18 +1,50 @@
 import React, { Component } from 'react';
 import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../../services/APIService';
 import './Signup.css';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {
-  NAME_MIN_LENGTH, NAME_MAX_LENGTH,
-  USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
-  EMAIL_MAX_LENGTH,
-  PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
-} from '../../../config/constants';
+  Form,
+  Input,
+  Tooltip,
+  Button,
+  notification
+} from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
-import { Form, Input, Button, notification } from 'antd';
-const FormItem = Form.Item;
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
+};
+
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 
 function Signup(props) {
+  const [form] = Form.useForm();
 
   const onFinish = async values => {
     console.log('Received values of form:', values);
@@ -21,8 +53,9 @@ function Signup(props) {
       email: values.email,
       username: values.username,
       password: values.password,
+      role: ["lab_user", "user"]
     };
-    await fetchSignup(signupRequest);
+    fetchSignup(signupRequest);
   };
 
   async function fetchSignup(signupRequest) {
@@ -37,81 +70,120 @@ function Signup(props) {
     catch (error) {
       notification.error({
         message: 'Forenseq App',
-        description: error.message || 'Sorry! Something went wrong. Please try again!'
+        description: error.response?.data?.error || 'Sorry! Something went wrong. Please try again!'
       });
     }
   }
 
   return (
     <div className="signup-container">
-      <h1 className="page-title">Sign Up</h1>
+      <h1>Sign Up</h1>
       <div className="signup-content">
-        <Form onFinish={onFinish} className="signup-form">
-          <FormItem
-            label="Full Name"
-            validateStatus={this.state.name.validateStatus}
-            help={this.state.name.errorMsg}>
-            <Input
-              size="large"
-              name="name"
-              autoComplete="off"
-              placeholder="Your full name"
-              value={this.state.name.value}
-              onChange={(event) => this.handleInputChange(event, this.validateName)} />
-          </FormItem>
-          <FormItem label="Username"
-            hasFeedback
-            validateStatus={this.state.username.validateStatus}
-            help={this.state.username.errorMsg}>
-            <Input
-              size="large"
-              name="username"
-              autoComplete="off"
-              placeholder="A unique username"
-              value={this.state.username.value}
-              onBlur={this.validateUsernameAvailability}
-              onChange={(event) => this.handleInputChange(event, this.validateUsername)} />
-          </FormItem>
-          <FormItem
-            label="Email"
-            hasFeedback
-            validateStatus={this.state.email.validateStatus}
-            help={this.state.email.errorMsg}>
-            <Input
-              size="large"
-              name="email"
-              type="email"
-              autoComplete="off"
-              placeholder="Your email"
-              value={this.state.email.value}
-              onBlur={this.validateEmailAvailability}
-              onChange={(event) => this.handleInputChange(event, this.validateEmail)} />
-          </FormItem>
-          <FormItem
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="signup"
+          onFinish={onFinish}
+          scrollToFirstError
+        >
+          <Form.Item
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="username"
+            label="Username"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your username!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="password"
             label="Password"
-            validateStatus={this.state.password.validateStatus}
-            help={this.state.password.errorMsg}>
-            <Input
-              size="large"
-              name="password"
-              type="password"
-              autoComplete="off"
-              placeholder="A password between 6 to 20 characters"
-              value={this.state.password.value}
-              onChange={(event) => this.handleInputChange(event, this.validatePassword)} />
-          </FormItem>
-          <FormItem>
-            <Button type="primary"
-              htmlType="submit"
-              size="large"
-              className="signup-form-button"
-              disabled={this.isFormInvalid()}>Sign up</Button>
-              Already registed? <Link to="/login">Login now!</Link>
-          </FormItem>
+            rules={[
+              {
+                required: true,
+                message: 'Please input your password!',
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            name="confirm"
+            label="Confirm Password"
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: 'Please confirm your password!',
+              },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+
+                  return Promise.reject('The two passwords that you entered do not match!');
+                },
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            name="fullname"
+            label={
+              <span>
+                Full name&nbsp;
+            <Tooltip title="What do you want others to call you?">
+                  <QuestionCircleOutlined />
+                </Tooltip>
+              </span>
+            }
+            rules={[
+              {
+                required: true,
+                message: 'Please input your full name!',
+                whitespace: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">
+              Register
+        </Button>
+          </Form.Item>
         </Form>
       </div>
     </div>
   );
-}
+};
 
-export default Signup;
+export default withRouter(Signup);

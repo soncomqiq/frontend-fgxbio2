@@ -1,94 +1,70 @@
 import React, { Component } from 'react';
-import { login } from '../../util/APIUtils';
+import { login } from '../../../services/APIService';
 import './Login.css';
 import { Link } from 'react-router-dom';
-import { ACCESS_TOKEN } from '../../constants';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Form, Input, Button, notification } from 'antd';
+import LocalStorageService from '../../../services/LocalStorageService';
+import { ACCESS_TOKEN_FIELD_FROM_BACKEND } from '../../../config/constants';
 
-import { Form, Input, Button, Icon, notification } from 'antd';
-const FormItem = Form.Item;
+function Login() {
+    const onFinish = values => {
+        console.log('Received values of form: ', values);
+        const payload = {
+            username: values.username,
+            password: values.password,
+        }
 
-class Login extends Component {
-    render() {
-        const AntWrappedLoginForm = Form.create()(LoginForm)
-        return (
-            <div className="login-container">
-                <h1 className="page-title">Login</h1>
-                <div className="login-content">
-                    <AntWrappedLoginForm onLogin={this.props.onLogin} />
-                </div>
+        login(payload)
+            .then(result => {
+                notification.success({
+                    message: "Login successful.",
+                })
+                LocalStorageService.setToken(result.data[ACCESS_TOKEN_FIELD_FROM_BACKEND]);
+            }).catch(error => {
+                notification.error({
+                    message: "Login failed.",
+                    description: error?.response?.data?.error || "Something went wrong."
+                })
+            })
+    };
+
+    return (
+        <div className="signup-container">
+            <h1>Login</h1>
+            <div className="signup-content">
+                <Form
+                    name="login"
+                    className="login-container"
+                    onFinish={onFinish}
+                >
+                    <Form.Item
+                        name="username"
+                        rules={[{ required: true, message: 'Please input your Username!' }]}
+                    >
+                        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                    </Form.Item>
+                    <Form.Item
+                        name="password"
+                        rules={[{ required: true, message: 'Please input your Password!' }]}
+                    >
+                        <Input
+                            prefix={<LockOutlined className="site-form-item-icon" />}
+                            type="password"
+                            placeholder="Password"
+                        />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" className="login-form-button">
+                            Log in
+                        </Button>
+                        Or <Link href="/signup">register now!</Link>
+                    </Form.Item>
+                </Form>
             </div>
-        );
-    }
-}
-
-class LoginForm extends Component {
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();   
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                const loginRequest = Object.assign({}, values);
-                console.log(values);
-                login(loginRequest)
-                .then(response => {
-                    localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-                    this.props.onLogin();
-                }).catch(error => {
-                    if(error.status === 401) {
-                        notification.error({
-                            message: 'Forenseq App',
-                            description: 'Your Username or Password is incorrect. Please try again!'
-                        });                    
-                    } else {
-                        notification.error({
-                            message: 'Forenseq App',
-                            description: error.message || 'Sorry! Something went wrong. Please try again!'
-                        });                                            
-                    }
-                });
-            }
-        });
-    }
-
-    render() {
-        const { getFieldDecorator } = this.props.form;
-        return (
-            <Form onSubmit={this.handleSubmit} className="login-form">
-                <FormItem>
-                    {getFieldDecorator('usernameOrEmail', {
-                        rules: [{ required: true, message: 'Please input your username or email!' }],
-                    })(
-                    <Input 
-                        prefix={<Icon type="user" />}
-                        size="large"
-                        name="usernameOrEmail" 
-                        placeholder="Username or Email" />    
-                    )}
-                </FormItem>
-                <FormItem>
-                {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please input your Password!' }],
-                })(
-                    <Input 
-                        prefix={<Icon type="lock" />}
-                        size="large"
-                        name="password" 
-                        type="password" 
-                        placeholder="Password"  />                        
-                )}
-                </FormItem>
-                <FormItem>
-                    <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
-                    Or <Link to="/signup">register now!</Link>
-                </FormItem>
-            </Form>
-        );
-    }
-}
-
+        </div>
+    );
+};
 
 export default Login;

@@ -27,12 +27,13 @@ axios.interceptors.response.use(
         return response;
     },
     err => {
-        if (err.response?.status === 401) {
+        if (err.response?.status === 401 && !err?.response.config.url.includes("/auth/signin")) {
             localStorageService.removeToken();
             window.location.reload();
             notification.error({
                 message: "กรุณาเข้าสู่ระบบใหม่"
             });
+
             return Promise.reject(err);
         }
 

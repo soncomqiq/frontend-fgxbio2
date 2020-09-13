@@ -1,106 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Input, Button, Radio, Statistic } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { API_BASE_URL, ACCESS_TOKEN } from '../../../config/constants';
+import { ACCESS_TOKEN } from '../../../config/constants';
 import { Typography } from 'antd';
 
 const { Text } = Typography;
 
 export default function FormSearch() {
-  const [currentChromosome, setCurrentChromosome] = useState("Autosome");
-  const [currentKit, setCurrentKit] = useState("Autosome");
+  const [form] = Form.useForm();
+
+  const getFields = () => {
+    const count = 6;
+    const children = [];
+    for (let i = 0; i < count; i++) {
+      children.push(
+        <Col span={8} key={i}>
+          <Form.Item
+            name={`field-${i}`}
+            label={`Field ${i}`}
+            rules={[
+              {
+                required: true,
+                message: 'Input something!',
+              },
+            ]}
+          >
+            <Input placeholder="placeholder" />
+          </Form.Item>
+        </Col>,
+      );
+    }
+    return children;
+  };
 
   const onFinish = values => {
     console.log('Received values of form: ', values);
   };
-
- const state = {
-    autosomKit: [],
-    yKit: [],
-    xKit: [],
-    currentLocusList: [],
-    totalMatchSample: 0,
-    listMatchSample: [],
-    totalSample: 0,
-    isAuthenticated: this.props.isAuthenticated,
-    isClicked: false
-  };
-
-  useEffect(() => {
-    axios.get("/resources/person/numberofperson").then((Response) => {
-      console.log(Response.data)
-      this.setState({
-        totalSample: Response.data
-      })
-    })
-    axios.get("/resources/getallautosomalkit").then((Response) => {
-      this.setState({
-        autosomKit: Response.data
-      })
-    })
-    axios.get("/resources/getallykit").then((Response) => {
-      this.setState({
-        yKit: Response.data
-      })
-    })
-    axios.get("/resources/getallxkit").then((Response) => {
-      this.setState({
-        xKit: Response.data
-      })
-    })
-    getFieldsAPI();
-  }, [])
-
-  const getFieldsAPI = () => {
-    let currentChromosome = "";
-    switch (this.state.chromosome) {
-      case "Autosome":
-        currentChromosome = "/resources/getlocusautosomalkit/";
-        break;
-      case "Y_STRs":
-        currentChromosome = "/resources/getlocusykit/";
-        break;
-      case "X_STRs":
-        currentChromosome = "/resources/getlocusxkit/";
-        break;
-      default:
-        currentChromosome = "";
-    }
-    let result = [];
-    axios.get(API_BASE_URL + currentChromosome + this.state.currentKit).then((Response) => {
-      Response.data.map((locus) => result.push(locus));
-      this.setState({
-        currentLocusList: result
-      })
-    })
-  }
-
-  // To generate mock Form.Item
-  const getFields = () => {
-    console.log(this.props.example)
-    const { getFieldDecorator } = this.props.form;
-    const children = [];
-    const locusList = this.state.currentLocusList;
-    for (let i = 0; i < locusList.length; i++) {
-      children.push(
-        <Col span={2} key={locusList[i]} style={{ display: 'block' }}>
-          <Form.Item label={`${locusList[i]}`} colon={false}>
-            {getFieldDecorator(`${locusList[i]}`, {
-              rules: [{
-                required: false,
-                message: 'Input something!',
-              }],
-              initialValue: this.props.example[locusList[i]]
-            })(
-              <Input placeholder={"M,N"} />
-            )}
-          </Form.Item>
-        </Col>
-      );
-    }
-    return children;
-  }
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -144,92 +79,29 @@ export default function FormSearch() {
     });
   }
 
-  const handleReset = () => {
-    this.props.form.resetFields();
-    this.props.setExampleEmpty();
-  }
-
-  const renderKitList = () => {
-    let component = null;
-    switch (this.state.chromosome) {
-      case "Autosome":
-        component = this.state.autosomKit.map((kit) =>
-          <Radio.Button value={kit}>{kit}</Radio.Button>
-        )
-        break;
-      case "Y_STRs":
-        component = this.state.yKit.map((kit) =>
-          <Radio.Button value={kit}>{kit}</Radio.Button>
-        )
-        break;
-      case "X_STRs":
-        component = this.state.xKit.map((kit) =>
-          <Radio.Button value={kit}>{kit}</Radio.Button>
-        )
-        break;
-      default:
-    }
-    return (
-      <Radio.Group value={this.state.currentKit} onChange={(e) => this.setState({ currentKit: e.target.value }, () => this.getFieldsAPI())}>
-        {component}
-      </Radio.Group>
-    );
-  }
-
-  const isAuthenticated = this.state.isAuthenticated;
-  const isClicked = this.state.isClicked;
-  const chromosome = this.state.chromosome;
-  const currentKit = this.state.currentKit;
-  const renderKitList = renderKitList();
-
   return (
-    <div>
-      <Row>
-        <p>Current chromosome is : <strong>{chromosome}</strong></p>
-        <Radio.Group value={chromosome} onChange={(e) => this.setState({ chromosome: e.target.value })}>
-          <Radio.Button value="Autosome">Autosome</Radio.Button>
-          <Radio.Button value="Y_STRs">Y_STRs</Radio.Button>
-          <Radio.Button value="X_STRs">X_STRs</Radio.Button>
-        </Radio.Group>
-        <br />
-        <br />
-        <p>Current kit is : <strong>{currentKit}</strong></p>
-        {renderKitList}
-      </Row>
-      <br />
-      <br />
-      <Form
-        className="ant-advanced-search-form"
-        style={{
-          padding: '24px',
-          background: '#fbfbfb',
-          border: '1px solid #d9d9d9',
-          borderRadius: '6px',
-        }}
-        onSubmit={this.handleSearch}
-      >
-        <Row gutter={24}>{getFields}</Row>
-        <Row>
-          <Col span={24} style={{ textAlign: 'left' }}>
-            <br />
-            <Button type="primary" htmlType="submit">Search</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>Clear</Button>
-          </Col>
-        </Row>
-      </Form>
-      <br /><br />
-      <div>
-        <Statistic title="Matched Sample" value={this.state.totalMatchSample} suffix={"/ " + this.state.totalSample} />
-      </div>
-      {isAuthenticated && isClicked ? <div>
-        {this.state.listMatchSample.map((data) => {
-          return (
-            <div>
-              <Text type="warning">Sample Year: {data[0]} Sample ID:{data[1]}</Text>
-            </div>
-          )
-        })}
-      </div> : null}
-    </div >
+    <Form
+    form={form}
+    name="advanced_search"
+    className="ant-advanced-search-form"
+    onFinish={onFinish}
+  >
+    <Row gutter={24}>{getFields()}</Row>
+    <Row>
+      <Col span={24} style={{ textAlign: 'right' }}>
+        <Button type="primary" htmlType="submit">
+          Search
+        </Button>
+        <Button
+          style={{ margin: '0 8px' }}
+          onClick={() => {
+            form.resetFields();
+          }}
+        >
+          Clear
+        </Button>
+      </Col>
+    </Row>
+  </Form>
   );
 }
