@@ -55,7 +55,7 @@ export default function ExcelSearch() {
 
   return (
     <div>
-      <Dragger {...props} onChange={this.onChange}>
+      <Dragger {...props} onChange={onChange}>
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>

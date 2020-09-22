@@ -1,67 +1,156 @@
-import React from 'react'
-import { Menu, Icon } from 'antd';
-import LoadingIndicator from '../common/LoadingIndicator';
+import React, { useState } from "react";
+import { Menu } from "antd";
+import {
+  BarChartOutlined,
+  BarcodeOutlined,
+  BoxPlotOutlined,
+  FileAddOutlined,
+  FileSearchOutlined,
+  FileTextOutlined,
+  GoogleOutlined,
+  HomeOutlined,
+  LineChartOutlined,
+  LogoutOutlined,
+  RadarChartOutlined,
+  SettingOutlined,
+  TeamOutlined,
+  UsergroupAddOutlined,
+} from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-export default function UserBar() {
+export default function UserNavbar() {
+  const [currentMenu, setCurrentMenu] = useState("");
 
   const handleMenuClick = ({ key }) => {
-    console.log(key)
+    console.log(key);
     if (key === "logout") {
       this.props.onLogout();
     } else {
-      { localStorage.setItem('currentMenu', key) }
+      setCurrentMenu(key);
     }
-  }
+  };
 
-  if (this.props.isLoading) {
-    return <LoadingIndicator />;
-  }
-
-  const colorTheme = '';
-  console.log(localStorage.getItem('currentMenu'))
   return (
     <Menu
       onClick={handleMenuClick}
-      selectedKeys={[localStorage.getItem('currentMenu')]}
+      selectedKeys={[currentMenu]}
       mode="horizontal"
       theme="light"
-      style={{ lineHeight: '64px', backgroundColor: colorTheme }}
+      style={{ lineHeight: "64px" }}
     >
       <Menu.Item key="home">
-        <a href="/" ><Icon type="home" />Home</a>
+        <Link to="/">
+          <HomeOutlined />
+          Home
+        </Link>
       </Menu.Item>
       <Menu.Item key="search">
-        <a href="/search" ><Icon type="search" />Search</a>
+        <Link to="/search">
+          <FileSearchOutlined />
+          Search
+        </Link>
       </Menu.Item>
-      <SubMenu key="stats" title={<span><Icon type="radar-chart" />Statistics</span>}>
-        <MenuItemGroup title="Group By Locus" style={{ backgroundColor: colorTheme }}>
-          <Menu.Item key="graph"><a href="/stats/graph" ><Icon type="bar-chart" />Graph</a></Menu.Item>
-          <Menu.Item key="map"><a href="/stats/map" ><Icon type="google" />Map</a></Menu.Item>
+      <SubMenu
+        key="stats"
+        title={
+          <span>
+            <RadarChartOutlined />
+            Statistics
+          </span>
+        }
+      >
+        <MenuItemGroup title="Group By Locus">
+          <Menu.Item key="graph">
+            <Link to="/stats/graph">
+              <BarChartOutlined />
+              Graph
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="map">
+            <Link to="/stats/map">
+              <GoogleOutlined />
+              Map
+            </Link>
+          </Menu.Item>
         </MenuItemGroup>
       </SubMenu>
-      <SubMenu key="analysis" title={<span><Icon type="line-chart" />Analysis</span>}>
-        <MenuItemGroup title="Analysis" style={{ backgroundColor: colorTheme }}>
-          <Menu.Item key="kinship"><a href="/analysis/kinship" ><Icon type="team" />Kinchip Analysis</a></Menu.Item>
+      <SubMenu
+        title={
+          <span>
+            <LineChartOutlined />
+            Analysis
+          </span>
+        }
+      >
+        <MenuItemGroup title="Analysis">
+          <Menu.Item key="kinship">
+            <Link to="/analysis/kinship">
+              <TeamOutlined />
+              Kinchip Analysis
+            </Link>
+          </Menu.Item>
         </MenuItemGroup>
       </SubMenu>
-      <SubMenu key="menu" style={{ float: 'right' }} title={<span><Icon type="setting" />Lab User Menu</span>}>
-        <MenuItemGroup title="Manange sample" style={{ backgroundColor: colorTheme }}>
-          <Menu.Item key="addperson"><a href="/uploadpersons" ><Icon type="usergroup-add" />Add persons</a></Menu.Item>
-          <Menu.Item key='listperson'><a href="/listpersons" ><Icon type="team" />Browse persons</a></Menu.Item>
+      <SubMenu
+        key="menu"
+        style={{ float: "right" }}
+        title={
+          <span>
+            <SettingOutlined />
+            Lab User Menu
+          </span>
+        }
+      >
+        <MenuItemGroup title="Manange sample">
+          <Menu.Item key="addperson">
+            <Link to="/uploadpersons">
+              <UsergroupAddOutlined />
+              Add persons
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="listperson">
+            <Link to="/listpersons">
+              <TeamOutlined />
+              Browse persons
+            </Link>
+          </Menu.Item>
         </MenuItemGroup>
-        <MenuItemGroup title="Manage STR data" style={{ backgroundColor: colorTheme }}>
-          <Menu.Item key="add"><a href="/adddata" ><Icon type="file-add" />Add ForenSeq</a></Menu.Item>
-          <Menu.Item key="cedata"><a href="/uploadcedata" ><Icon type="file-text" />Add CE data</a></Menu.Item>
+        <MenuItemGroup title="Manage STR data">
+          <Menu.Item key="add">
+            <Link to="/adddata">
+              <FileAddOutlined />
+              Add ForenSeq
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="cedata">
+            <Link to="/uploadcedata">
+              <FileTextOutlined />
+              Add CE data
+            </Link>
+          </Menu.Item>
         </MenuItemGroup>
-        <MenuItemGroup title="Analysis" style={{ backgroundColor: colorTheme }}>
-          <Menu.Item key="isnp"><a href="/isnpstat" ><Icon type="box-plot" />iSNPs</a></Menu.Item>
-          <Menu.Item key="alignment"><a href="/seqalign" ><Icon type="barcode" />Seq Alignment</a></Menu.Item>
+        <MenuItemGroup title="Analysis">
+          <Menu.Item key="isnp">
+            <Link to="/isnpstat">
+              <BoxPlotOutlined />
+              iSNPs
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="alignment">
+            <Link to="/seqalign">
+              <BarcodeOutlined />
+              Seq Alignment
+            </Link>
+          </Menu.Item>
         </MenuItemGroup>
-        <Menu.Item key="logout"><Icon type="logout" />Logout</Menu.Item>
+        <Menu.Item key="logout">
+          <LogoutOutlined />
+          Logout
+        </Menu.Item>
       </SubMenu>
-    </Menu >
-  )
+    </Menu>
+  );
 }
