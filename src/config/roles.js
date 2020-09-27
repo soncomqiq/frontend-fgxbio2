@@ -1,5 +1,5 @@
-import Login from "../containers/pages/Login/Login";
-import Signup from "../containers/pages/Signup/Signup";
+import Login from "../containers/pages/login/Login";
+import Signup from "../containers/pages/signup/Signup";
 import Home from "../containers/pages/Welcome/Welcome";
 import Search from "../containers/pages/SearchPage/SearchPage";
 
