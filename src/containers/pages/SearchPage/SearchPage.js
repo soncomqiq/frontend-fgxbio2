@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { Radio } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import "./SearchPage.css";
 import ExcelSearch from "../../../components/searches/excel-search/ExcelSearch";
 import TextSearch from "../../../components/searches/text-search/TextSearch";

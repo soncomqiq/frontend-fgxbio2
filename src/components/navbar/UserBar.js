@@ -17,6 +17,7 @@ import {
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import LocalStorageService from "../../services/LocalStorageService";
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -27,7 +28,7 @@ export default function UserNavbar() {
   const handleMenuClick = ({ key }) => {
     console.log(key);
     if (key === "logout") {
-      this.props.onLogout();
+      LocalStorageService.removeToken();
     } else {
       setCurrentMenu(key);
     }

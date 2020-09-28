@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../../services/APIService';
+import React from 'react';
+import { signup } from '../../../services/APIService';
 import './Signup.css';
 import { withRouter } from 'react-router-dom';
 import {

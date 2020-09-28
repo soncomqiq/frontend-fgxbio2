@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { login } from '../../../services/APIService';
 import './Login.css';
 import { Link } from 'react-router-dom';

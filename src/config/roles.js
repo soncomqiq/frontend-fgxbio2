@@ -2,6 +2,7 @@ import Login from "../containers/pages/login/Login";
 import Signup from "../containers/pages/signup/Signup";
 import Home from "../containers/pages/Welcome/Welcome";
 import Search from "../containers/pages/SearchPage/SearchPage";
+import Graph from "../containers/pages/Statistics/Graph";
 
 const pages = {
   login: {
@@ -20,10 +21,14 @@ const pages = {
     url: "/search",
     page: Search,
   },
+  graph: {
+    url: "/stats/graph",
+    page: Graph,
+  },
 };
 
 export default {
-  guest: [pages.home, pages.login, pages.search, pages.signup],
-  user: [pages.home, pages.login, pages.search, pages.signup],
-  labUser: [pages.home, pages.login, pages.search, pages.signup],
+  guest: [pages.home, pages.login, pages.search, pages.signup, pages.graph],
+  user: [pages.home, pages.login, pages.search, pages.signup, pages.graph],
+  labUser: [pages.home, pages.login, pages.search, pages.signup, pages.graph],
 };
