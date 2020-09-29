@@ -1,81 +1,64 @@
 import React, { useState } from "react";
 import { Input, Button, Form, Col, Statistic, Row } from "antd";
-import Axios from "axios";
-import { API_BASE_URL, ACCESS_TOKEN } from "../../../config/constants";
+import axios from "axios";
 import { Typography } from "antd";
-import LocalStorageService from "../../../services/LocalStorageService";
 
 const { Text } = Typography;
 const { TextArea } = Input;
 
 function TextSearch(props) {
   const [isClicked, setIsClicked] = useState(false);
-  const isAuthenticated = LocalStorageService.getToken();
+  const [matchedSample, setMatchedSample] = useState({
+    amount: 0,
+    list: [],
+    total: 0,
+  });
 
   const renderSampleList = () => {
-    return isAuthenticated && isClicked ? (
+    return isClicked ? (
       <div>
-        {[].map((data) => {
+        {matchedSample.list.map(({ sampleId, sampleYear }) => {
           return (
             <div>
-              <Text type="warning">
-                Sample Year: {data[0]}, Sample ID: {data[1]}
+              <Text style={{color: "blueviolet"}}>
+                Sample Year: {sampleYear}, Sample ID: {sampleId}
               </Text>
             </div>
           );
         })}
+        <br />
       </div>
     ) : null;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        let data = [];
-        let search = values.search;
-        console.log("Received values of form: ", search);
-        var tmp = search.replace(/(\r\n|\n|\r)/gm, "$");
-        let tmp1 = tmp.split("$");
-        let tmp2 = tmp1.map((element) => element.trim()); // trim each string
-        tmp2.forEach((element) => {
-          let tmp4 = element.split(":");
-          let tmp5 = tmp4[1].split(",");
-          tmp5.forEach((ele) => {
-            data.push({ locus: tmp4[0], allele: ele });
-          });
-          console.log(data);
-        });
-        if (this.props.isAuthenticated) {
-          const auth = {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN),
-            },
-          };
-          Axios.post(
-            API_BASE_URL + "/resources/findpersonbylocus",
-            data,
-            auth
-          ).then((Response) => {
-            console.log(Response.data);
-            this.setState({
-              totalMatchSample: Response.data.length,
-              listMatchSample: Response.data,
-            });
-          });
-        } else {
-          Axios.post(
-            API_BASE_URL + "/resources/findNumberOfPersonByLocus",
-            data
-          ).then((Response) => {
-            console.log(Response.data);
-            this.setState({
-              totalMatchSample: Response.data,
-            });
-          });
-        }
-      }
+  const extractLocusAllele = (values) => {
+    let data = [];
+    let tmp = values.search.replace(/(\r\n|\n|\r)/gm, "$");
+    let tmp1 = tmp.split("$");
+    let tmp2 = tmp1.map((e) => e.trim());
+
+    tmp2.forEach((e) => {
+      let tmp4 = e.split(":");
+      let tmp5 = tmp4[1].split(",");
+      tmp5.forEach((ele) => {
+        data.push({ locus: tmp4[0], allele: ele });
+      });
     });
+
+    return data;
+  };
+
+  const handleSubmit = async (values) => {
+    let data = extractLocusAllele(values);
+
+    axios.post("/samples/person", data).then((res) => {
+      setMatchedSample({
+        amount: res.data.amount,
+        list: res.data.sampleDetails,
+        total: res.data.total,
+      });
+    });
+
     setIsClicked(true);
   };
 
@@ -84,6 +67,7 @@ function TextSearch(props) {
       <Col xs={24}>
         <Form onFinish={handleSubmit}>
           <Form.Item
+            name="search"
             rules={[
               {
                 required: true,
@@ -108,7 +92,11 @@ function TextSearch(props) {
           </Form.Item>
         </Form>
         <div>
-          <Statistic title="Matched Sample" value={0} suffix={"/ " + 5} />
+          <Statistic
+            title="Matched Sample"
+            value={matchedSample.amount}
+            suffix={"/ " + matchedSample.total}
+          />
           <br />
           {renderSampleList()}
         </div>
