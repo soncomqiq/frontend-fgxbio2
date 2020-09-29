@@ -3,13 +3,14 @@ import { Input, Button, Form, Col, Statistic, Row } from "antd";
 import Axios from "axios";
 import { API_BASE_URL, ACCESS_TOKEN } from "../../../config/constants";
 import { Typography } from "antd";
+import LocalStorageService from "../../../services/LocalStorageService";
 
 const { Text } = Typography;
 const { TextArea } = Input;
 
 function TextSearch(props) {
   const [isClicked, setIsClicked] = useState(false);
-  const isAuthenticated = props.isAuthenticated;
+  const isAuthenticated = LocalStorageService.getToken();
 
   const renderSampleList = () => {
     return isAuthenticated && isClicked ? (

@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Form, Row, Col, Input, Button, Radio, Statistic } from "antd";
+import React from "react";
+import { Form, Row, Col, Input, Button } from "antd";
 import axios from "axios";
 import { ACCESS_TOKEN } from "../../../config/constants";
-import { Typography } from "antd";
-
-const { Text } = Typography;
 
 export default function FormSearch() {
   const [form] = Form.useForm();
