@@ -10,32 +10,6 @@ export default function SearchPage(props) {
   const [searchMeth, setSearchMeth] = useState(1);
   const [example, setExample] = useState("");
 
-  const renderSearch = () => {
-    const isAuthenticated = props.isAuthenticated;
-    switch (searchMeth) {
-      case 0:
-        return <ExcelSearch isAuthenticated={isAuthenticated} />;
-      case 1:
-        return (
-          <TextSearch
-            isAuthenticated={isAuthenticated}
-            example={example}
-            setExample={setExample}
-          />
-        );
-      case 2:
-        return (
-          <FormSearch
-            isAuthenticated={isAuthenticated}
-            example={example}
-            setExample={setExample}
-          />
-        );
-      default:
-        return <div>default</div>;
-    }
-  };
-
   const handleExample = () => {
     switch (props.searchType) {
       case "Text":
@@ -59,7 +33,9 @@ export default function SearchPage(props) {
       <div className="container">
         <h2>We provide multiple methods to</h2>
         <h2>compare your sample data with our database</h2>
-        <h2 className="click-for-example" onClick={handleExample}>Click for example</h2>
+        <h2 className="click-for-example" onClick={handleExample}>
+          Click for example
+        </h2>
         <br />
         <br />
         <Radio.Group
@@ -76,7 +52,20 @@ export default function SearchPage(props) {
       </div>
       <br />
       <div>
-        <div className="search-container">{renderSearch()}</div>
+        <div className="search-container">
+          {(() => {
+            switch (searchMeth) {
+              case 0:
+                return <ExcelSearch />;
+              case 1:
+                return <TextSearch example={example} setExample={setExample} />;
+              case 2:
+                return <FormSearch example={example} setExample={setExample} />;
+              default:
+                return <div>default</div>;
+            }
+          })()}
+        </div>
       </div>
     </div>
   );

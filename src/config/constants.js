@@ -1,6 +1,10 @@
-export const API_BASE_URL = 'http://localhost:8080/api';
-export const ACCESS_TOKEN = 'accessToken';
-export const ACCESS_TOKEN_FIELD_FROM_BACKEND = "token"
+export const API_BASE_URL = "http://localhost:8080/api";
+export const ACCESS_TOKEN = "accessToken";
+export const ROLE = "role";
+export const ACCESS_TOKEN_FIELD_FROM_BACKEND = "token";
+export const USER_ROLE = "ROLE_USER";
+export const LAB_USER_ROLE = "ROLE_LAB_USER";
+export const ADMIN_ROLE = "ROLE_ADMIN";
 
 export const NAME_MIN_LENGTH = 4;
 export const NAME_MAX_LENGTH = 40;

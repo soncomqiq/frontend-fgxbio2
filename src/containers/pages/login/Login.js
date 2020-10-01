@@ -21,7 +21,9 @@ function Login() {
                     message: "Login successful.",
                 })
                 LocalStorageService.setToken(result.data[ACCESS_TOKEN_FIELD_FROM_BACKEND]);
+                LocalStorageService.setRole(result.data.roles)
             }).catch(error => {
+                console.log(error)
                 notification.error({
                     message: "Login failed.",
                     description: error?.response?.data?.error || "Something went wrong."

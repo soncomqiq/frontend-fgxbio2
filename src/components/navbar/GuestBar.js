@@ -17,7 +17,6 @@ const MenuItemGroup = Menu.ItemGroup;
 function GuestNavbar(props) {
   const pathName = props.location.pathname.split("/").slice(-1)[0];
   const defaultMenu = pathName ? pathName : "home";
-  console.log(defaultMenu);
   const [currentMenu, setCurrentMenu] = useState(defaultMenu);
 
   return (

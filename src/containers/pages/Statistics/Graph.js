@@ -17,9 +17,9 @@ function Graph() {
       .get("/loci/all")
       .then((res) => {
         setLocusList({
-          Autosome: res.data.akits,
-          X: res.data.xkits,
-          Y: res.data.ykits,
+          Autosome: res.data.aloci,
+          X: res.data.xloci,
+          Y: res.data.yloci,
         });
       }
       )

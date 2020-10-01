@@ -78,7 +78,7 @@ function TextSearch(props) {
             <TextArea placeholder="CSF1PO:5,6" autosize />
           </Form.Item>
           <Form.Item>
-            <Col span={24} style={{ textAlign: "center" }}>
+            <Col span={24} style={{ textAlign: "right" }}>
               <Button type="primary" htmlType="submit">
                 Search
               </Button>

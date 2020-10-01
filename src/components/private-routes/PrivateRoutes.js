@@ -12,7 +12,7 @@ function PrivateRoutes(props) {
 
   return (
     <>
-      {(role === "geust") ? <GuestNavbar /> : <UserNavbar />}
+      {(role === "guest") ? <GuestNavbar /> : <UserNavbar />}
       <Switch>
         {allowedRoutes.map((route) => (
           <Route key={route.url} exact path={route.url}>

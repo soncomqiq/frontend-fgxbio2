@@ -107,7 +107,7 @@ export default function UserNavbar() {
       >
         <MenuItemGroup title="Manange sample">
           <Menu.Item key="addperson">
-            <Link to="/uploadpersons">
+            <Link to="/upload/excel">
               <UsergroupAddOutlined />
               Add persons
             </Link>
