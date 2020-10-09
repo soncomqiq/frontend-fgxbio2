@@ -4,13 +4,13 @@ import { InboxOutlined } from "@ant-design/icons";
 import { API_BASE_URL } from "../../../config/constants";
 import LocalStorageService from "../../../services/LocalStorageService";
 
-function ExcelUpload() {
+function Person() {
   const { Dragger } = Upload;
 
   const props = {
     name: "file",
     multiple: true,
-    action: `${API_BASE_URL}/files/upload`,
+    action: `${API_BASE_URL}/files/person`,
     headers: { Authorization: `Bearer ${LocalStorageService.getToken()}` },
     onChange(info) {
       const { status } = info.file;
@@ -21,7 +21,7 @@ function ExcelUpload() {
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
-        if (info.file.response.status === 401) {
+        if (info?.file?.response.status === 401) {
           LocalStorageService.removeToken();
           window.location.reload();
           notification.error({
@@ -36,7 +36,7 @@ function ExcelUpload() {
     <div>
       <br />
       <Row justify="center">
-        <h2>Upload Excel Data</h2>
+        <h2>Upload Person Data</h2>
       </Row>
       <br />
       <Row justify="center">
@@ -61,4 +61,4 @@ function ExcelUpload() {
   );
 }
 
-export default ExcelUpload;
+export default Person;

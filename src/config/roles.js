@@ -3,8 +3,10 @@ import Signup from "../containers/pages/Signup/Signup";
 import Home from "../containers/pages/Welcome/Welcome";
 import Search from "../containers/pages/SearchPage/SearchPage";
 import Graph from "../containers/pages/Statistics/Graph";
+import Forenseq from "../containers/pages/Upload/Forenseq";
+import CEData from "../containers/pages/Upload/CEData";
+import PersonUpload from "../containers/pages/Upload/Person";
 import { ADMIN_ROLE, LAB_USER_ROLE, USER_ROLE } from "./constants";
-import ExcelUpload from "../containers/pages/Upload/Excel";
 
 const pages = {
   login: {
@@ -28,8 +30,16 @@ const pages = {
     page: Graph,
   },
   excelUpload: {
-    url: "/upload/excel",
-    page: ExcelUpload,
+    url: "/upload/forenseq",
+    page: Forenseq,
+  },
+  ceData: {
+    url: "/upload/cedata",
+    page: CEData
+  },
+  personUpload: {
+    url: "/upload/person",
+    page: PersonUpload
   },
 };
 
@@ -49,13 +59,10 @@ export default {
     pages.signup,
     pages.graph,
     pages.excelUpload,
+    pages.ceData,
+    pages.personUpload,
   ],
   [ADMIN_ROLE]: [
-    pages.home,
-    pages.login,
-    pages.search,
-    pages.signup,
-    pages.graph,
-    pages.excelUpload,
+    ...Object.values(pages)
   ],
 };

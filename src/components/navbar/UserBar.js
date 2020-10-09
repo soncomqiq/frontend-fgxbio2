@@ -107,27 +107,27 @@ export default function UserNavbar() {
       >
         <MenuItemGroup title="Manange sample">
           <Menu.Item key="addperson">
-            <Link to="/upload/excel">
+            <Link to="/upload/person">
               <UsergroupAddOutlined />
               Add persons
             </Link>
           </Menu.Item>
           <Menu.Item key="listperson">
-            <Link to="/listpersons">
+            <Link to="/manage/person">
               <TeamOutlined />
-              Browse persons
+              Manage person
             </Link>
           </Menu.Item>
         </MenuItemGroup>
         <MenuItemGroup title="Manage STR data">
-          <Menu.Item key="add">
-            <Link to="/adddata">
+          <Menu.Item key="forenseq">
+            <Link to="/upload/forenseq">
               <FileAddOutlined />
               Add ForenSeq
             </Link>
           </Menu.Item>
           <Menu.Item key="cedata">
-            <Link to="/uploadcedata">
+            <Link to="/upload/cedata">
               <FileTextOutlined />
               Add CE data
             </Link>
