@@ -6,6 +6,7 @@ import Graph from "../containers/pages/Statistics/Graph";
 import Forenseq from "../containers/pages/Upload/Forenseq";
 import CEData from "../containers/pages/Upload/CEData";
 import PersonUpload from "../containers/pages/Upload/Person";
+import SequenceAlignment from "../containers/pages/SequenceAlignment/SequenceAlignment";
 import { ADMIN_ROLE, LAB_USER_ROLE, USER_ROLE } from "./constants";
 
 const pages = {
@@ -35,23 +36,21 @@ const pages = {
   },
   ceData: {
     url: "/upload/cedata",
-    page: CEData
+    page: CEData,
   },
   personUpload: {
     url: "/upload/person",
-    page: PersonUpload
+    page: PersonUpload,
+  },
+  sequenceAlignment: {
+    url: "/full/seq-align",
+    page: SequenceAlignment,
   },
 };
 
 export default {
   guest: [pages.home, pages.login, pages.search, pages.signup, pages.graph],
-  [USER_ROLE]: [
-    pages.home,
-    pages.login,
-    pages.search,
-    pages.signup,
-    pages.graph,
-  ],
+  [USER_ROLE]: [pages.home, pages.login, pages.search, pages.signup, pages.graph],
   [LAB_USER_ROLE]: [
     pages.home,
     pages.login,
@@ -62,7 +61,5 @@ export default {
     pages.ceData,
     pages.personUpload,
   ],
-  [ADMIN_ROLE]: [
-    ...Object.values(pages)
-  ],
+  [ADMIN_ROLE]: [...Object.values(pages)],
 };

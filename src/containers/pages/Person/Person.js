@@ -6,7 +6,7 @@ import Highlighter from 'react-highlight-words';
 import LoadingIndicator from '../common/LoadingIndicator';
 
 function SinglePerson(props) {
-  this.state = {
+  const state = {
     CEData: [],
     summarizeForenseq: [],
     CEDataX: [],
@@ -25,7 +25,6 @@ function SinglePerson(props) {
 
   this.props.setIsLoading(true);
   this.props.setIsLoading(false);
-  this.renderAllTable();
 
   const getColumnSearchProps = (dataIndex, add) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -249,7 +248,7 @@ function SinglePerson(props) {
       key: 'id.locus',
       align: 'center',
       width: 150,
-      ...this.getColumnSearchProps('id', 'locus'),
+      ...getColumnSearchProps('id', 'locus'),
       sorter: (a, b) => a.id.locus > b.id.locus,
       sortDirections: ['descend', 'ascend'],
     }, {
@@ -275,7 +274,7 @@ function SinglePerson(props) {
       key: 'id.locus',
       align: 'center',
       width: 150,
-      ...this.getColumnSearchProps('id', 'locus'),
+      ...getColumnSearchProps('id', 'locus'),
       sorter: (a, b) => a.id.locus > b.id.locus,
       sortDirections: ['descend', 'ascend'],
     }, {
@@ -308,7 +307,7 @@ function SinglePerson(props) {
       width: 150,
       sorter: (a, b) => a.forenseqIdentity.locus > b.forenseqIdentity.locus,
       sortDirections: ['descend', 'ascend'],
-      ...this.getColumnSearchProps('forenseqIdentity', 'locus'),
+      ...getColumnSearchProps('forenseqIdentity', 'locus'),
     }, {
       title: 'Allele',
       dataIndex: 'forenseqIdentity.allele',
@@ -363,7 +362,7 @@ function SinglePerson(props) {
       width: 150,
       sorter: (a, b) => a.forenseqIdentity.locus > b.forenseqIdentity.locus,
       sortDirections: ['descend', 'ascend'],
-      ...this.getColumnSearchProps('forenseqIdentity', 'locus'),
+      ...getColumnSearchProps('forenseqIdentity', 'locus'),
     }, {
       title: 'Allele',
       dataIndex: 'forenseqIdentity.allele',

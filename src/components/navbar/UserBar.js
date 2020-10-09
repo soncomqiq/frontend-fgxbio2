@@ -9,7 +9,6 @@ import {
   FileTextOutlined,
   GoogleOutlined,
   HomeOutlined,
-  LineChartOutlined,
   LogoutOutlined,
   RadarChartOutlined,
   SettingOutlined,
@@ -79,23 +78,6 @@ export default function UserNavbar() {
         </MenuItemGroup>
       </SubMenu>
       <SubMenu
-        title={
-          <span>
-            <LineChartOutlined />
-            Analysis
-          </span>
-        }
-      >
-        <MenuItemGroup title="Analysis">
-          <Menu.Item key="kinship">
-            <Link to="/analysis/kinship">
-              <TeamOutlined />
-              Kinchip Analysis
-            </Link>
-          </Menu.Item>
-        </MenuItemGroup>
-      </SubMenu>
-      <SubMenu
         key="menu"
         style={{ float: "right" }}
         title={
@@ -141,7 +123,7 @@ export default function UserNavbar() {
             </Link>
           </Menu.Item>
           <Menu.Item key="alignment">
-            <Link to="/seqalign">
+            <Link to="/full/seq-align">
               <BarcodeOutlined />
               Seq Alignment
             </Link>

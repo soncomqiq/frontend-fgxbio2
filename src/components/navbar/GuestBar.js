@@ -5,10 +5,8 @@ import {
   FileSearchOutlined,
   GoogleOutlined,
   HomeOutlined,
-  LineChartOutlined,
   LoginOutlined,
   RadarChartOutlined,
-  TeamOutlined,
 } from "@ant-design/icons";
 import { Link, withRouter } from "react-router-dom";
 const SubMenu = Menu.SubMenu;
@@ -59,23 +57,6 @@ function GuestNavbar(props) {
             <Link to="/stats/map">
               <GoogleOutlined />
               Map
-            </Link>
-          </Menu.Item>
-        </MenuItemGroup>
-      </SubMenu>
-      <SubMenu
-        title={
-          <span>
-            <LineChartOutlined />
-            Analysis
-          </span>
-        }
-      >
-        <MenuItemGroup title="Analysis">
-          <Menu.Item key="kinship">
-            <Link to="/analysis/kinship">
-              <TeamOutlined />
-              Kinchip Analysis
             </Link>
           </Menu.Item>
         </MenuItemGroup>
