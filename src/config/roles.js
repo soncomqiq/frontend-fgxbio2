@@ -7,6 +7,7 @@ import Forenseq from "../containers/pages/Upload/Forenseq";
 import CEData from "../containers/pages/Upload/CEData";
 import PersonUpload from "../containers/pages/Upload/Person";
 import SequenceAlignment from "../containers/pages/SequenceAlignment/SequenceAlignment";
+import ISNPPage from "../containers/pages/Statistics/Protected/ISNPStats";
 import { ADMIN_ROLE, LAB_USER_ROLE, USER_ROLE } from "./constants";
 
 const pages = {
@@ -46,6 +47,10 @@ const pages = {
     url: "/full/seq-align",
     page: SequenceAlignment,
   },
+  isnp: {
+    url: "/stats/isnp",
+    page: ISNPPage,
+  }
 };
 
 export default {
@@ -60,6 +65,7 @@ export default {
     pages.excelUpload,
     pages.ceData,
     pages.personUpload,
+    pages.isnp,
   ],
   [ADMIN_ROLE]: [...Object.values(pages)],
 };

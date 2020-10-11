@@ -21,13 +21,14 @@ import LocalStorageService from "../../services/LocalStorageService";
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-export default function UserNavbar() {
+export default function UserNavbar(props) {
   const [currentMenu, setCurrentMenu] = useState("");
 
   const handleMenuClick = ({ key }) => {
     console.log(key);
     if (key === "logout") {
       LocalStorageService.removeToken();
+      props.setRole("guest");
     } else {
       setCurrentMenu(key);
     }
@@ -117,7 +118,7 @@ export default function UserNavbar() {
         </MenuItemGroup>
         <MenuItemGroup title="Analysis">
           <Menu.Item key="isnp">
-            <Link to="/isnpstat">
+            <Link to="/stats/isnp">
               <BoxPlotOutlined />
               iSNPs
             </Link>

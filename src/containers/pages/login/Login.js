@@ -1,13 +1,13 @@
 import React from 'react';
 import { login } from '../../../services/APIService';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Form, Input, Button, notification } from 'antd';
 import LocalStorageService from '../../../services/LocalStorageService';
 import { ACCESS_TOKEN_FIELD_FROM_BACKEND } from '../../../config/constants';
 
-function Login() {
+function Login(props) {
     const onFinish = values => {
         console.log('Received values of form: ', values);
         const payload = {
@@ -22,6 +22,8 @@ function Login() {
                 })
                 LocalStorageService.setToken(result.data[ACCESS_TOKEN_FIELD_FROM_BACKEND]);
                 LocalStorageService.setRole(result.data.roles)
+                props.setRole(LocalStorageService.getRole());
+                props.history.push("/")
             }).catch(error => {
                 console.log(error)
                 notification.error({
@@ -69,4 +71,4 @@ function Login() {
     );
 };
 
-export default Login;
+export default withRouter(Login);

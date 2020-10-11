@@ -79,11 +79,11 @@ function maskedAllele(sequence, seqAlign) {
     }
 
     if (final.length === 0) {
-      return <span style={{ backgroundColor: "#5BF13E" }}>{sequence}</span>;
+      return <span style={{ backgroundColor: "#5BF13E"}}>{sequence}</span>;
     }
 
     return final.map((letter, i) => (
-      <span style={{ backgroundColor: i % 2 === 0 ? AlphaColorSwitch[letter] : AlphaColor[letter] }}>{letter}</span>
+      <span style={{ backgroundColor: AlphaColor[letter] , border: "2px solid #FFFFFF", borderRadius: "5px" }}>{letter}</span>
     ));
   }
 }
