@@ -96,7 +96,7 @@ export default function UserNavbar(props) {
             </Link>
           </Menu.Item>
           <Menu.Item key="listperson">
-            <Link to="/manage/person">
+            <Link to="/persons">
               <TeamOutlined />
               Manage person
             </Link>

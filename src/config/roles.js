@@ -8,6 +8,7 @@ import CEData from "../containers/pages/Upload/CEData";
 import PersonUpload from "../containers/pages/Upload/Person";
 import SequenceAlignment from "../containers/pages/SequenceAlignment/SequenceAlignment";
 import ISNPPage from "../containers/pages/Statistics/Protected/ISNPStats";
+import PersonList from "../containers/pages/Person/PersonList";
 import { ADMIN_ROLE, LAB_USER_ROLE, USER_ROLE } from "./constants";
 
 const pages = {
@@ -50,7 +51,11 @@ const pages = {
   isnp: {
     url: "/stats/isnp",
     page: ISNPPage,
-  }
+  },
+  personList: {
+    url: "/persons",
+    page: PersonList,
+  },
 };
 
 export default {
@@ -66,6 +71,7 @@ export default {
     pages.ceData,
     pages.personUpload,
     pages.isnp,
+    pages.personList,
   ],
   [ADMIN_ROLE]: [...Object.values(pages)],
 };

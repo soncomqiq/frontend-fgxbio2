@@ -142,11 +142,11 @@ function ISNPStats() {
       </div>
       {snpSummary.map((entry) => {
         // + 0.5 And Floor Function to round same as math principle
-        var a = (entry.A / entry.Total) * 100;
-        var t = (entry.T / entry.Total) * 100;
-        var c = (entry.C / entry.Total) * 100;
-        var g = (entry.G / entry.Total) * 100;
-        var i = (entry.I / entry.Total) * 100;
+        let a = (entry.A / entry.Total) * 100;
+        let t = (entry.T / entry.Total) * 100;
+        let c = (entry.C / entry.Total) * 100;
+        let g = (entry.G / entry.Total) * 100;
+        let i = (entry.I / entry.Total) * 100;
         return (
           <div>
             <br />
@@ -239,7 +239,6 @@ function ISNPStats() {
                   </div>
                 </div>
               </div>
-
               <div className="column is-2" align="center">
                 <strong>{entry.Total}</strong>
               </div>
