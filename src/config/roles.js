@@ -9,6 +9,7 @@ import PersonUpload from "../containers/pages/Upload/Person";
 import SequenceAlignment from "../containers/pages/SequenceAlignment/SequenceAlignment";
 import ISNPPage from "../containers/pages/Statistics/Protected/ISNPStats";
 import PersonList from "../containers/pages/Person/PersonList";
+import Map from "../containers/pages/Statistics/Map";
 import { ADMIN_ROLE, LAB_USER_ROLE, USER_ROLE } from "./constants";
 
 const pages = {
@@ -56,6 +57,10 @@ const pages = {
     url: "/persons",
     page: PersonList,
   },
+  map: {
+    url: "/stats/map",
+    page: Map,
+  },
 };
 
 export default {
@@ -72,6 +77,7 @@ export default {
     pages.personUpload,
     pages.isnp,
     pages.personList,
+    pages.map,
   ],
   [ADMIN_ROLE]: [...Object.values(pages)],
 };
