@@ -13,7 +13,7 @@ const cityScale = scaleLinear().domain([0, 6]).range([1, 25]);
 function MapStats() {
   const [locusList, setLocusList] = useState({ Autosome: [], X: [], Y: [] });
   const [currentChromosome, setCurrentChromosome] = useState("Autosome");
-  const [curLocus, setCurLocus] = useState("");
+  const [curLocus, setCurLocus] = useState("Amelogenin");
   const [data, setData] = useState([]);
   const [colorFlag, setColorFlag] = useState({});
 
@@ -30,6 +30,9 @@ function MapStats() {
       .catch((err) => {
         console.log(err);
       });
+
+      fetchMapData(curLocus);
+
   }, []);
 
   useEffect(() => {

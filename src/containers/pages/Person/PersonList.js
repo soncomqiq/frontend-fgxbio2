@@ -15,13 +15,9 @@ function PersonList() {
 
   const fetchPerson = () => {
     const { curPage, pageSize } = pageInfo;
-    axios.get(`/persons?page=${curPage - 1}&size=${pageSize}`).then((res) => {
-      const personWithId = res.data._embedded.persons.map((e) => ({
-        ...e,
-        id: e._links.self.href.split("/").slice(-1)[0],
-      }));
-      setPersonList(personWithId);
-      setTotalItem(res.data.page.totalElements);
+    axios.get(`/persons-custom/?page=${curPage - 1}&size=${pageSize}`).then((res) => {
+      setPersonList(res.data.person_list);
+      setTotalItem(res.data.number_of_person);
     });
   };
 
@@ -67,24 +63,24 @@ function PersonList() {
       dataIndex: "race.race",
       key: "race.race",
       align: "center",
-      render: (text, { race }) => <>{race.race}</>,
-      sorter: (a, b) => a.race.race > b.race.race,
+      render: (text, { race }) => <>{race?.race}</>,
+      sorter: (a, b) => a.race?.race > b.race?.race,
     },
     {
       title: "Country",
       dataIndex: "country.country",
       key: "country",
       align: "center",
-      render: (text, { country }) => <>{country.country}</>,
-      sorter: (a, b) => a.country.country > b.country.country,
+      render: (text, { country }) => <>{country?.country}</>,
+      sorter: (a, b) => a.country?.country > b.country?.country,
     },
     {
       title: "Province",
       dataIndex: "province.province",
       key: "province",
       align: "center",
-      render: (text, { province }) => <>{province.province}</>,
-      sorter: (a, b) => a.province.province > b.province.province,
+      render: (text, { province }) => <>{province?.province}</>,
+      sorter: (a, b) => a.province?.province > b.province?.province,
     },
     {
       title: "Action",
