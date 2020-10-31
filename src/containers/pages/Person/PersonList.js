@@ -15,7 +15,7 @@ function PersonList() {
 
   const fetchPerson = () => {
     const { curPage, pageSize } = pageInfo;
-    axios.get(`/persons-custom/?page=${curPage - 1}&size=${pageSize}`).then((res) => {
+    axios.get(`/persons/?page=${curPage - 1}&size=${pageSize}`).then((res) => {
       setPersonList(res.data.person_list);
       setTotalItem(res.data.number_of_person);
     });

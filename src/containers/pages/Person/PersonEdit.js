@@ -1,5 +1,7 @@
-import { Form, Input, InputNumber } from "antd";
+import { Button, Form, Input, InputNumber, Select } from "antd";
 import React, { useState } from "react";
+
+const { Option } = Select;
 
 function PersonEditForm(props) {
   const [provinceList, setProvinceList] = useState([]);
@@ -45,6 +47,22 @@ function PersonEditForm(props) {
         ]}
       >
         <InputNumber />
+      </Form.Item>
+      <Form.Item
+        name="country"
+        label="Country"
+        rules={[{ required: true, message: "Please select country"}]}
+      >
+        <Select mode="multiple" placeholder="Please select favourite colors">
+          <Option value="red">Red</Option>
+          <Option value="green">Green</Option>
+          <Option value="blue">Blue</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Update
+        </Button>
       </Form.Item>
     </Form>
   );
