@@ -30,7 +30,7 @@ function PersonItem(props) {
     <span>
       <Link to={"/user/view/" + person.sampleYear + "/" + person.sampleId}>View</Link>
       <Divider type="vertical" />
-      <Link onClick={() => this.ModalEdit(person)}>Edit</Link>
+      <Link to={`/persons/${person.id}`}>Edit</Link>
       <Divider type="vertical" />
       <Link onClick={onClickDelete}>Delete</Link>
       <Modal

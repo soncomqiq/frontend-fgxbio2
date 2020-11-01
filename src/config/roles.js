@@ -10,6 +10,7 @@ import SequenceAlignment from "../containers/pages/SequenceAlignment/SequenceAli
 import ISNPPage from "../containers/pages/Statistics/Protected/ISNPStats";
 import PersonList from "../containers/pages/Person/PersonList";
 import Map from "../containers/pages/Statistics/Map";
+import PersonEdit from "../containers/pages/Person/PersonEdit";
 import { ADMIN_ROLE, LAB_USER_ROLE, USER_ROLE } from "./constants";
 
 const pages = {
@@ -61,9 +62,13 @@ const pages = {
     url: "/stats/map",
     page: Map,
   },
+  personEdit: {
+    url: "/persons/:id",
+    page: PersonEdit,
+  },
 };
 
-export default {
+const roles = {
   guest: [pages.home, pages.login, pages.search, pages.signup, pages.graph],
   [USER_ROLE]: [pages.home, pages.login, pages.search, pages.signup, pages.graph],
   [LAB_USER_ROLE]: [
@@ -78,6 +83,9 @@ export default {
     pages.isnp,
     pages.personList,
     pages.map,
+    pages.personEdit,
   ],
   [ADMIN_ROLE]: [...Object.values(pages)],
 };
+
+export default roles;

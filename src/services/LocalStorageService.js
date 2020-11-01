@@ -1,10 +1,4 @@
-import {
-  ACCESS_TOKEN,
-  ROLE,
-  ADMIN_ROLE,
-  LAB_USER_ROLE,
-  USER_ROLE,
-} from "../config/constants";
+import { ACCESS_TOKEN, ROLE, ADMIN_ROLE, LAB_USER_ROLE, USER_ROLE } from "../config/constants";
 
 const _setToken = (accessToken) => {
   localStorage.setItem(ACCESS_TOKEN, accessToken);
@@ -33,10 +27,12 @@ const _getRole = (role) => {
   return localStorage.getItem(ROLE);
 };
 
-export default {
+const serviceFn = {
   setToken: _setToken,
   getToken: _getToken,
   removeToken: _removeToken,
   setRole: _setRole,
   getRole: _getRole,
 };
+
+export default serviceFn;
