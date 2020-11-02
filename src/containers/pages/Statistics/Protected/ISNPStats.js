@@ -1,5 +1,8 @@
+import { Divider, Statistic, Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import axios from "../../../../config/axios";
+
+const { Text } = Typography;
 
 function ISNPStats() {
   const [snpSummary, setSnpSummaryList] = useState([]);
@@ -152,96 +155,94 @@ function ISNPStats() {
             <br />
 
             <div className="columns">
-              <div className="column is-2" align="center">
-                <strong>{entry.Locus}</strong>
-              </div>
+              <Divider orientation="left">
+                Locus: <Text keyboard>{entry.Locus}</Text>
+              </Divider>
               <div className="column">
                 <div className="columns" style={{ padding: "5px" }}>
-                  <div
-                    align="center"
-                    style={{
-                      borderStyle: "solid",
-                      borderWidth: a !== 0 ? "0px" : "0px",
-                      backgroundColor: "#bae637",
-                      width: a < 7 && a > 0 ? "7%" : a + "%",
-                      height: 40,
-                    }}
-                  >
-                    {a !== 0 && (
+                  {a !== 0 && (
+                    <div
+                      align="center"
+                      style={{
+                        borderStyle: "solid",
+                        borderWidth: a !== 0 ? "0px" : "0px",
+                        backgroundColor: "#bae637",
+                        width: a < 7 && a > 0 ? "7%" : a + "%",
+                        height: 40,
+                      }}
+                    >
                       <p style={{ margin: "auto", padding: "10px" }}>
-                        <strong>{a.toFixed(2)}%</strong>
+                        <Text keyboard>{a.toFixed(2)}%</Text>
                       </p>
-                    )}
-                  </div>
-                  <div
-                    align="center"
-                    style={{
-                      borderStyle: "solid",
-                      borderWidth: t !== 0 ? "0px" : "0px",
-                      backgroundColor: "#69c0ff",
-                      width: t < 7 && t > 0 ? "7%" : t + "%",
-                      height: 40,
-                    }}
-                  >
-                    {t !== 0 && (
+                    </div>
+                  )}
+                  {t !== 0 && (
+                    <div
+                      align="center"
+                      style={{
+                        borderStyle: "solid",
+                        borderWidth: t !== 0 ? "0px" : "0px",
+                        backgroundColor: "#69c0ff",
+                        width: t < 7 && t > 0 ? "7%" : t + "%",
+                        height: 40,
+                      }}
+                    >
                       <p style={{ margin: "auto", padding: "10px" }}>
                         <strong>{t.toFixed(2)}%</strong>
                       </p>
-                    )}
-                  </div>
-                  <div
-                    align="center"
-                    style={{
-                      borderStyle: "solid",
-                      borderWidth: c !== 0 ? "0px" : "0px",
-                      backgroundColor: "#ffd666",
-                      width: c < 7 && c > 0 ? "7%" : c + "%",
-                      height: 40,
-                    }}
-                  >
-                    {c !== 0 && (
+                    </div>
+                  )}
+                  {c !== 0 && (
+                    <div
+                      align="center"
+                      style={{
+                        borderStyle: "solid",
+                        borderWidth: c !== 0 ? "0px" : "0px",
+                        backgroundColor: "#ffd666",
+                        width: c < 7 && c > 0 ? "7%" : c + "%",
+                        height: 40,
+                      }}
+                    >
                       <p style={{ margin: "auto", padding: "10px" }}>
                         <strong>{c.toFixed(2)}%</strong>
                       </p>
-                    )}
-                  </div>
-                  <div
-                    align="center"
-                    style={{
-                      borderStyle: "solid",
-                      borderWidth: g !== 0 ? "0px" : "0px",
-                      backgroundColor: "#ff7a45",
-                      width: g < 7 && g > 0 ? "7%" : g + "%",
-                      height: 40,
-                    }}
-                  >
-                    {g !== 0 && (
+                    </div>
+                  )}
+                  {g !== 0 && (
+                    <div
+                      align="center"
+                      style={{
+                        borderStyle: "solid",
+                        borderWidth: g !== 0 ? "0px" : "0px",
+                        backgroundColor: "#ff7a45",
+                        width: g < 7 && g > 0 ? "7%" : g + "%",
+                        height: 40,
+                      }}
+                    >
                       <p style={{ margin: "auto", padding: "10px" }}>
                         <strong>{g.toFixed(2)}%</strong>
                       </p>
-                    )}
-                  </div>
-                  <div
-                    align="center"
-                    style={{
-                      borderStyle: "solid",
-                      borderWidth: i !== 0 ? "0px" : "0px",
-                      backgroundColor: "#ffadd2",
-                      width: i < 7 && i > 0 ? "7%" : i + "%",
-                      height: 40,
-                    }}
-                  >
-                    {i !== 0 && (
+                    </div>
+                  )}
+                  {i !== 0 && (
+                    <div
+                      align="center"
+                      style={{
+                        borderStyle: "solid",
+                        borderWidth: i !== 0 ? "0px" : "0px",
+                        backgroundColor: "#ffadd2",
+                        width: i < 7 && i > 0 ? "7%" : i + "%",
+                        height: 40,
+                      }}
+                    >
                       <p style={{ margin: "auto", padding: "10px" }}>
                         <strong>{i.toFixed(2)}%</strong>
                       </p>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="column is-2" align="center">
-                <strong>{entry.Total}</strong>
-              </div>
+              <Statistic title="Total" value={entry.Total} />
             </div>
           </div>
         );
