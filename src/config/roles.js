@@ -12,6 +12,7 @@ import PersonList from "../containers/pages/Person/PersonList";
 import Map from "../containers/pages/Statistics/Map";
 import PersonEdit from "../containers/pages/Person/PersonEdit";
 import { ADMIN_ROLE, LAB_USER_ROLE, USER_ROLE } from "./constants";
+import Person from "../containers/pages/Person/Person";
 
 const pages = {
   login: {
@@ -66,6 +67,10 @@ const pages = {
     url: "/persons/:id",
     page: PersonEdit,
   },
+  personView: {
+    url: "/persons/:id/forenseq",
+    page: Person,
+  },
 };
 
 const roles = {
@@ -84,6 +89,7 @@ const roles = {
     pages.personList,
     pages.map,
     pages.personEdit,
+    pages.personView,
   ],
   [ADMIN_ROLE]: [...Object.values(pages)],
 };

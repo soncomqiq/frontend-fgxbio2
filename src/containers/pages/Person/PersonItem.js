@@ -28,7 +28,7 @@ function PersonItem(props) {
 
   return (
     <span>
-      <Link to={"/user/view/" + person.sampleYear + "/" + person.sampleId}>View</Link>
+      <Link to={`/persons/${person.id}/forenseq`}>View</Link>
       <Divider type="vertical" />
       <Link to={`/persons/${person.id}`}>Edit</Link>
       <Divider type="vertical" />
