@@ -1,85 +1,76 @@
-import { Upload, message, Statistic } from "antd";
-import React from "react";
-import { API_BASE_URL } from "../../../config/constants";
-import axios from "axios";
+import { Col, message, Row, Statistic, Typography, Upload } from "antd";
+import React, { useState } from "react";
 import { InboxOutlined } from "@ant-design/icons";
 
-const Dragger = Upload.Dragger;
+const { Text } = Typography;
+const { Dragger } = Upload;
 
-export default function ExcelSearch() {
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-  //     totalSample: 0,
-  //     totalMatchSample: 0,
-  //     isUploaded: false,
-  //   }
-  // }
+function ExcelSearch() {
+  const [isClicked, setIsClicked] = useState(false);
+  const [matchedSample, setMatchedSample] = useState({
+    amount: 0,
+    list: [],
+    total: 0,
+  });
 
-  // componentWillMount() {
-  //   axios.get(API_BASE_URL + "/resources/person/numberofperson").then((Response) => {
-  //     this.setState({
-  //       totalSample: Response.data
-  //     })
-  //   })
-  // }
-
-  const onChange = (info) => {
-    const status = info.file.status;
-    const data = new FormData();
-    data.append("file", info.file.originFileObj, info.file.name);
-    axios
-      .post(API_BASE_URL + "/file/search/excelfile", data)
-      .then((Response) => {
-        this.setState({
-          totalMatchSample: Response.data.length,
-          isUploaded: true,
-        });
-      })
-      .catch((error) => console.log(error));
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (status === "done") {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
+  const renderSampleList = () => {
+    return isClicked ? (
+      <div>
+        {matchedSample.list.map(({ sampleId, sampleYear }) => {
+          return (
+            <div>
+              <Text style={{ color: "blueviolet" }}>
+                Sample Year: {sampleYear}, Sample ID: {sampleId}
+              </Text>
+            </div>
+          );
+        })}
+        <br />
+      </div>
+    ) : null;
   };
 
-  const props = {
+  const propsDrag = {
     name: "file",
     multiple: true,
-    action: API_BASE_URL + "/file/search/excelfile",
+    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    onChange(info) {
+      const { status } = info.file;
+      if (status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (status === "done") {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
   };
 
   return (
     <div>
-      <Dragger {...props} onChange={onChange}>
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to upload
-        </p>
-        <p className="ant-upload-hint">
-          Support for a single or bulk upload. Strictly prohibit from uploading
-          company data or other band files
-        </p>
-      </Dragger>
-      <br />
-      <br />
-      <div>
-        {this.state.isUploaded ? (
-          <Statistic
-            title="This data is"
-            value={
-              (this.state.totalMatchSample > 0 ? "found" : "not found") +
-              " in database"
-            }
-          />
-        ) : null}
-      </div>
+      <Col>
+        <Row>
+          <Dragger {...propsDrag}>
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">Click or drag file to this area to upload</p>
+            <p className="ant-upload-hint">
+              Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files
+            </p>
+          </Dragger>
+        </Row>
+        <Row justify="center">
+          <div>
+            <Statistic title="Matched Sample" value={matchedSample.amount} suffix={"/ " + matchedSample.total} />
+            <br />
+            {renderSampleList()}
+          </div>
+        </Row>
+      </Col>
     </div>
   );
 }
+
+export default ExcelSearch;
